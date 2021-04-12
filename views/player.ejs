@@ -12,6 +12,16 @@
       <div id="player"></div>
     </main>
 
+    <aside>
+      <form>
+        <fieldset>Chat</fieldset>
+        <ol></ol>
+        <input type="text" name="name" id="name">
+        <input type="text" name="message" id="message">
+        <button type="submit">Send</button>
+      </form>
+    </aside>
+
   </body>
   <script>
     console.log('player.js running')
@@ -42,7 +52,7 @@
       player = new YT.Player('player', {
         playerVars: {
           modestbranding: true,
-          autoplay: true,
+          // autoplay: true,
           showinfo: 0,
           ecver: 2
         },
@@ -128,5 +138,6 @@
 
   </script>
   <!-- <script async src="/scripts/player.js"></script> -->
+  <script async src="/scripts/chat.js"></script>
 
 </html>
