@@ -3,7 +3,7 @@ const app = express();
 const http = require('http').createServer(app);
 const path = require('path');
 const io = require('socket.io')(http);
-const axios = require('axios')
+const messageCache = require("./modules/messageCache.js");
 const bodyParser = require('body-parser');
 const router = require('./routes/router.js')
 const port = process.env.PORT || 3000;
@@ -22,14 +22,31 @@ io.on('connection', (socket) => {
     io.to(room).emit('userJoined');
 
     if (io.sockets.adapter.rooms.get(room)) socket.emit('onlineCount', io.sockets.adapter.rooms.get(room).size)
+
+    let cache = messageCache.getCache(room)
+    if (cache == undefined) messageCache.setCache(room, [])
   })
 
   socket.on('state', (emitted) => {
     console.log('state', emitted)
     io.to(emitted.room).emit('state', emitted);
 
-    emitted.playing ? io.to(emitted.room).emit('playback', true) : io.to(emitted.room).emit('playback', false) 
-    // send status to room 
+    emitted.playing ? io.to(emitted.room).emit('playback', true) : io.to(emitted.room).emit('playback', false)
+  })
+
+  socket.on('message', (message) => {
+    console.dir(message)
+    let cache = messageCache.getCache(message.room)
+
+    messageCache.setCache(message.room, cache)
+    socket.broadcast.to(message.room).emit('message', message)
+  })
+
+  socket.on('getMessages', (room) => {
+    let cache = messageCache.getCache(room)
+    let now = +new Date
+    let renderData = Object.values(cache).map(key => (now - key.timestamp) < 3600000 && key.room == room ? key : false).filter(elem => typeof elem == 'object')
+    io.to(room).emit('setMessages', renderData)
   })
 
   socket.on('disconnect', () => {
