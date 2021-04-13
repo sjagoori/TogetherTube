@@ -3,13 +3,17 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.render('homepage')
+  return res.render('homepage')
+})
+
+router.get('/:videoId', (req, res) => {
+  let prep = req.params.videoId
+  return res.render('player', { prep: prep })
 })
 
 router.post('/handleQuery', (req, res) => {
   let prep = req.body.query.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/)[2]
-  let link = 'http://www.youtube.com/embed/' + prep
-  res.render('player', { query: link, prep: prep })
+  return res.redirect('/' + prep)
 })
 
 module.exports = router
