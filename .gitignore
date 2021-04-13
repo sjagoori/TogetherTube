@@ -2,3 +2,5 @@ node_modules
 messageCache.json
 relatedCache.json
 .env
+.DS_Store
+*/.DS_Store
