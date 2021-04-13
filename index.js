@@ -18,17 +18,13 @@ io.on('connection', (socket) => {
   console.log('user connected');
   io.emit('userJoined');
 
-  socket.on('join', async (room) => {
+  socket.on('join', (room) => {
     console.log('joining: ', room)
     socket.join(room)
     io.to(room).emit('userJoined');
 
     if (io.sockets.adapter.rooms.get(room)) socket.emit('onlineCount', io.sockets.adapter.rooms.get(room).size)
-
-    let callString = `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${room}&type=video&key=${process.env.API_KEY}`
-
     if (messageCache.getCache(room) == undefined) messageCache.setCache(room, [])
-    if (relatedCache.getCache(room) == undefined) relatedCache.setCache(room, [await axios.get(callString).then(res => res.data)])
   })
 
   socket.on('state', (emitted) => {
@@ -53,7 +49,9 @@ io.on('connection', (socket) => {
     io.to(room).emit('setMessages', renderData)
   })
 
-  socket.on('getRelated', (room) => {
+  socket.on('getRelated', async (room) => {
+    let callString = `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${room}&type=video&key=${process.env.API_KEY}`
+    if (relatedCache.getCache(room) == undefined) relatedCache.setCache(room, [await axios.get(callString).then(res => res.data)])
     io.to(room).emit('setRelated', relatedCache.getCache(room)[0])
   })
 
