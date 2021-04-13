@@ -4,10 +4,12 @@ const http = require('http').createServer(app);
 const path = require('path');
 const io = require('socket.io')(http);
 const messageCache = require("./modules/messageCache.js");
+const relatedCache = require("./modules/relatedCache.js");
 const bodyParser = require('body-parser');
 const router = require('./routes/router.js')
+const axios = require('axios')
+require('dotenv').config()
 const port = process.env.PORT || 3000;
-
 
 /**
  * * Socket.io config
@@ -23,8 +25,10 @@ io.on('connection', (socket) => {
 
     if (io.sockets.adapter.rooms.get(room)) socket.emit('onlineCount', io.sockets.adapter.rooms.get(room).size)
 
-    let cache = messageCache.getCache(room)
-    if (cache == undefined) messageCache.setCache(room, [])
+    let callString = `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${room}&type=video&key=${process.env.API_KEY}`
+
+    if (messageCache.getCache(room) == undefined) messageCache.setCache(room, [])
+    if (relatedCache.getCache(room) == undefined) relatedCache.setCache(room, [await axios.get(callString).then(res => res.data)])
   })
 
   socket.on('state', (emitted) => {
@@ -44,9 +48,13 @@ io.on('connection', (socket) => {
 
   socket.on('getMessages', (room) => {
     let cache = messageCache.getCache(room)
-    let now = +new Date
-    let renderData = Object.values(cache).map(key => (now - key.timestamp) < 3600000 && key.room == room ? key : false).filter(elem => typeof elem == 'object')
+    let renderData = Object.values(cache).map(key => (+new Date - key.timestamp) < 3600000 && key.room == room ? key : false).filter(elem => typeof elem == 'object')
+
     io.to(room).emit('setMessages', renderData)
+  })
+
+  socket.on('getRelated', (room) => {
+    io.to(room).emit('setRelated', relatedCache.getCache(room)[0])
   })
 
   socket.on('disconnect', () => {
