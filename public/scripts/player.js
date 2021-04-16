@@ -18,7 +18,6 @@ tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-
 var player;
 
 function onYouTubeIframeAPIReady() {
@@ -35,16 +34,9 @@ function onYouTubeIframeAPIReady() {
     origin: 'http://example.com',
     events: {
       'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange,
-      '*': handleTimestamps
     }
   })
 }
-
-// let progressBar = document.getElementById('progressBar').addEventListener('click', e => {
-//   console.log(e.offsetX/100*2)
-//   player.seekTo(e.offsetX/100*2)
-// })
 
 function handlePlayer() {
   setInterval(function () {
@@ -72,13 +64,14 @@ let playButton = document.getElementById('playButton').addEventListener('click',
 * 
 **/
 
+
+function handleTimestamps(event) {
+  socket.emit('state', { id: vidId, playing: true, timestamp: event.target.getCurrentTime(), room: vidId });
+}
+
 function onPlayerReady(event) {
   handlePlayer()
   playState = true
-}
-
-function stopVideo() {
-  player.stopVideo();
 }
 
 function pauseVideo() {
@@ -90,7 +83,6 @@ function startVideo() {
   player.playVideo();
   playState = true
 }
-
 
 /**
  * 
@@ -108,3 +100,6 @@ socket.on('state', state => {
   player.seekTo(state.timestamp)
 })
 
+socket.on('playback', state => {
+  state ? startVideo() : pauseVideo()
+})
