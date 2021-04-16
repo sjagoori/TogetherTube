@@ -1,7 +1,7 @@
 console.log('player.js running')
 let socket = io();
-
 let vidId = document.getElementsByTagName('main')[0].id
+let progressBarController = document.getElementById('progressBarController')
 
 /**
  * * Emit a joined event; join a room 
@@ -18,17 +18,16 @@ tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
+
 var player;
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     playerVars: {
-      modestbranding: true,
-      // autoplay: true,
-      showinfo: 0,
-      ecver: 2
+      modestbranding: 1,
+      controls: 0,
+      autoplay: true,
+      showinfo: 0
     },
     height: '390',
     width: '640',
@@ -42,33 +41,40 @@ function onYouTubeIframeAPIReady() {
   })
 }
 
+// let progressBar = document.getElementById('progressBar').addEventListener('click', e => {
+//   console.log(e.offsetX/100*2)
+//   player.seekTo(e.offsetX/100*2)
+// })
 
+function handlePlayer() {
+  setInterval(function () {
+    let position = player.getCurrentTime() / player.getDuration() * 100
+    document.getElementById('progressBar').addEventListener('click', e => {
+      // ???
+      let seekTo = e.offsetX / e.target.offsetWidth * player.getDuration()
+      console.log('seekTo', e)
+      // console.log('seekTo', seekTo)
+      player.seekTo(seekTo)
+      socket.emit('state', { id: vidId, playing: true, timestamp: seekTo, room: vidId });
+      // ???
+    })
+    console.log(player.getCurrentTime())
+    progressBarController.style.left = position + '%'
+  }, 200);
+}
+
+let playButton = document.getElementById('playButton').addEventListener('click', e => {
+  playState ? pauseVideo() : startVideo()
+})
 /**
 * 
 * * IFRAME EVENTS
 * 
 **/
 
-
-function handleTimestamps(event) {
-  socket.emit('state', { id: vidId, playing: true, timestamp: event.target.getCurrentTime(), room: vidId });
-}
-
-
-// 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
-  // event.target.playVideo();
+  handlePlayer()
   playState = true
-}
-
-// 5. The API calls this function when the player's state changes.
-//    The function indicates that when playing a video (state=1),
-//    the player should play for six seconds and then stop.
-function onPlayerStateChange(event) {
-  if (event.data == 1 && playState)
-    socket.emit('state', { id: vidId, playing: true, timestamp: event.target.getCurrentTime(), room: vidId });
-  if (event.data == 2)
-    socket.emit('state', { id: vidId, playing: false, timestamp: event.target.getCurrentTime(), room: vidId });
 }
 
 function stopVideo() {
@@ -77,10 +83,12 @@ function stopVideo() {
 
 function pauseVideo() {
   player.pauseVideo();
+  playState = false
 }
 
 function startVideo() {
   player.playVideo();
+  playState = true
 }
 
 
@@ -90,10 +98,6 @@ function startVideo() {
  * 
  **/
 
-socket.on('userJoined', () => {
-  console.log("USER HAS JOINED")
-})
-
 socket.on('onlineCount', count => {
   let counter = document.createElement('span')
   counter.textContent = count
@@ -101,11 +105,6 @@ socket.on('onlineCount', count => {
 })
 
 socket.on('state', state => {
-  console.log(state.timestamp)
-  console.log(socket)
-  // console.dir(player.seekTo(state.timestamp))
+  player.seekTo(state.timestamp)
 })
 
-socket.on('playback', state => {
-  state ? startVideo() : pauseVideo()
-})
