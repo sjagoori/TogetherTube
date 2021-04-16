@@ -10,6 +10,7 @@
 
 body {
   background-color: var(--bg-color);
+  font-family: 'Open Sans', sans-serif;
 }
 
 main {

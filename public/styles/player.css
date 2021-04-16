@@ -13,6 +13,7 @@ body {
   width: clamp(20rem, 70vw, 80rem);
   background-color: var(--bg-color);
   color: white;
+  font-family: 'Open Sans', sans-serif;
 }
 
 body>div {
