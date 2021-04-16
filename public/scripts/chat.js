@@ -16,6 +16,7 @@ form.addEventListener('submit', (e) => {
   if (message != '') {
     socket.emit('message', { name: name, message: message, timestamp: timestamp, room: vidId });
     document.forms[0][2].value = '';
+    addMessage(message, name, timestamp)
     return true;
   }
 });
