@@ -1,6 +1,18 @@
+:root {
+  --bg-color: #0C0C0D;
+  --pane-color: #1C1D20;
+  --pane-color-light: #1C1D2099;
+  --red: #FF0000;
+  --bright-red: #F23545;
+  --cyan: #63F2A1;
+  --transition-speed: .3s
+}
+
 body {
   margin: 0 auto;
   width: clamp(20rem, 70vw, 80rem);
+  background-color: var(--bg-color);
+  color: white;
 }
 
 body>div {
@@ -9,13 +21,67 @@ body>div {
   justify-content: space-between;
 }
 
+main iframe {
+  border-radius: 30px;
+}
+
 aside form {
-  /* max-width: 70%; */
   margin-left: 20px;
-  height: 99%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: var(--pane-color);
+  padding: 20px;
+  border-radius: 30px;
+}
+
+form input {
+  border: none;
+  background-color: var(--bg-color);
+  padding: 20px 20px;
+  border-radius: 20px;
+  transition: var(--transition-speed);
+  color: white;
+}
+
+form input:focus,
+form input:active,
+form input:hover {
+  outline: none;
+  padding: 20px 30px;
+}
+
+form input:nth-of-type(1){
+  width: 5rem
+}
+
+form div:nth-of-type(2){
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: 20px;
+}
+
+form button {
+  border: none;
+  padding: 20px 20px;
+  background-color: var(--bright-red);
+  color: white;
+  border-radius: 20px;
+  transition: var(--transition-speed);
+}
+
+form button:hover,
+form button:active,
+form button:focus {
+  outline: none;
+  cursor: pointer;
+  background-color: var(--red);
+}
+
+aside form fieldset {
+  border: none;
+  font-size: 1.8rem;
 }
 
 aside {
@@ -39,7 +105,7 @@ article a {
   text-decoration: none;
   display: flex;
   justify-content: space-between;
-  color: black;
+  color: inherit;
   max-width: 100%;
 }
 
@@ -71,7 +137,7 @@ article a img {
 
   aside form {
     margin-left: 0px;
-    width: 50%;
+    /* width: 50%; */
     /* height: 400px; */
     display: flex;
     flex-direction: column;
