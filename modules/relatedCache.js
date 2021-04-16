@@ -8,19 +8,15 @@ const db = low(adapter);
  * @param {String} room - key
  * @param {Object} value - value
  */
-async function setCache(room, value) {
+exports.setCache = async (room, value) => {
     db.set(room, value).write();
 }
-
-module.exports.setCache = setCache;
 
 /**
  * Function gets value for given key
  * @param {String} room - key
  * @returns {Object} key's value
  */
-function getCache(room) {
+exports.getCache = (room) => {
     return db.has(room).value() ? db.get(room).value() : undefined;
 }
-
-module.exports.getCache = getCache;
