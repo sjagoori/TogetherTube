@@ -29,6 +29,11 @@ socket.on('setMessages', (emitted) => {
   emitted.map(key => addMessage(key.message, key.name, key.timestamp))
 });
 
+socket.on('userJoined', () => {
+  console.log("USER HAS JOINED")
+  addMessage('User has joined the chat', '>', +new Date)
+})
+
 function addMessage(message, name, timestamp) {
   console.log(timestamp)
   let timeObject = new Date(new Date(timestamp).getTime() - (24 * 60 * 60 * 1000))
