@@ -1,4 +1,4 @@
-# TogetherTube
+# 📺 TogetherTube
 *TogetherTube is a YouTube client that brings YouTube and playback sync together!*
 
 <table style="margin-left: auto; margin-right: auto;">
@@ -45,11 +45,11 @@ TogetherTube is a YouTube client that brings YouTube and playback sync together 
 ![](./assets/images/data_lifecycle_diagram.png)
 
 ## 🤖 Installation
-**Get a YouTube API key**
+**Get a YouTube API key**   
 Requirements:
 * Google account
 
-Guide 
+Guide: 
 1. Open the cloud console [link](https://console.cloud.google.com/apis/dashboard)
 2. Create a project 
 3. Open the project
