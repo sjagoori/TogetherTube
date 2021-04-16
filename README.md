@@ -1,4 +1,4 @@
-# TogetherTube
+# 📺 TogetherTube
 *TogetherTube is a YouTube client that brings YouTube and playback sync together!*
 
 <table style="margin-left: auto; margin-right: auto;">
