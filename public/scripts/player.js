@@ -95,9 +95,9 @@ socket.on('userJoined', () => {
 })
 
 socket.on('onlineCount', count => {
-  let counter = document.createElement('p')
-  counter.textContent = count + ' users in the room'
-  document.getElementsByTagName('h1')[0].appendChild(counter)
+  let counter = document.createElement('span')
+  counter.textContent = count
+  document.getElementById('onlineCount').appendChild(counter)
 })
 
 socket.on('state', state => {
