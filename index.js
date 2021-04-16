@@ -1,15 +1,20 @@
+require('dotenv').config();
+
+const path = require('path');
+const port = process.env.PORT || 3000;
+
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+
+const axios = require('axios');
 const http = require('http').createServer(app);
-const path = require('path');
 const io = require('socket.io')(http);
+
 const messageCache = require("./modules/messageCache.js");
 const relatedCache = require("./modules/relatedCache.js");
-const bodyParser = require('body-parser');
-const router = require('./routes/router.js')
-const axios = require('axios')
-require('dotenv').config()
-const port = process.env.PORT || 3000;
+const router = require('./routes/router.js');
+
 
 /**
  * * Socket.io config
@@ -37,7 +42,7 @@ io.on('connection', (socket) => {
   socket.on('message', (message) => {
     console.dir(message)
     let cache = messageCache.getCache(message.room)
-
+    cache.push(message)
     messageCache.setCache(message.room, cache)
     socket.broadcast.to(message.room).emit('message', message)
   })
