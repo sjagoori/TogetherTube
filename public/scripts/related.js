@@ -14,28 +14,28 @@ function generateCards(title, description, channelTitle, thumbnail, link) {
   // relatedContainer.appendChild(a)
 
   let content =
-    `<article>
-      <a href=${link}>
-        <div>
-          <h3>${title}</h3>
-          <p>${description.split('\n')[0]}</p>
-          <span>${channelTitle}</span>
-        </div>
-        <div>
-          <img srcset=
-            ${thumbnail.maxres.url}  1280w,
-            ${thumbnail.standard.url} 640w,
-            ${thumbnail.high.url} 480w,
-            ${thumbnail.medium.url}  320w 
-            ${thumbnail.default.url}  120w 
-            sizes="(min-width: 36em) 33.3vw,100vw" 
-            src=${thumbnail.standard.url} 
-            alt="thumbnail"
-            loading="lazy" 
-          />
-        </div>
-      </a>
-    </article>`
+    `
+    <a href=${link}>
+    <article>
+    <figure>
+      <div class="gradient">
+        <img srcset=
+          ${thumbnail.maxres.url}  1280w,
+          ${thumbnail.standard.url} 640w,
+          ${thumbnail.high.url} 480w,
+          ${thumbnail.medium.url}  320w 
+          ${thumbnail.default.url}  120w 
+          sizes="(min-width: 36em) 33.3vw,100vw" 
+          src=${thumbnail.standard.url} 
+          alt="thumbnail"
+          loading="lazy" 
+        />
+      </div>
+      <figcaption>${title}<span>${channelTitle}</span></figcaption>
+    </figure>
+  </article>
+  </a>
+  `
 
   relatedContainer.innerHTML += content
   // relatedContainer.appendChild(new DOMParser().parseFromString(content, 'text/xml').firstChild())

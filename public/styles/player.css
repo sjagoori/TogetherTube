@@ -24,6 +24,7 @@ body>div {
 
 main iframe {
   border-radius: 30px;
+  width: 40rem;
 }
 
 aside form {
@@ -92,30 +93,52 @@ aside {
 /* 
   RELATED SECTION
 */
-section {
-  margin: 0 auto;
-  /* width: 100%; */
+
+section>div {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2em;
 }
 
-article {
-  max-height: 200px;
-  margin-bottom: 20px;
-}
-
-article a {
-  text-decoration: none;
-  display: flex;
-  justify-content: space-between;
-  color: inherit;
+figure {
   max-width: 100%;
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  margin: 0;
 }
 
-article a>div {
-  max-width: 50%;
+figure:hover>.gradient{
+  transition: .3s;
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0) 120%);
+
 }
 
-article a img {
-  max-height: 200px;
+figure img {
+  display: block;
+  max-width: 100%;
+  position: relative;
+  z-index: -1;
+}
+
+.gradient {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, .01) 0%, rgba(0, 0, 0) 120%);
+}
+
+figure figcaption {
+  color: #FFF;
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+figure figcaption span {
+  display: block;
+  font-size: 1rem;
+  margin-top: .5rem;
+  font-weight: 400;
 }
 
 
