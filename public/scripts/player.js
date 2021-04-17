@@ -29,7 +29,7 @@ function onYouTubeIframeAPIReady() {
       controls: 0,
       allowfullscreen: 1,
       fs: 1,
-      // autoplay: true,
+      autoplay: true,
       showinfo: 0
     },
     height: '390',
@@ -46,29 +46,21 @@ function handlePlayer() {
   setInterval(function () {
     let position = player.getCurrentTime() / player.getDuration() * 100
     document.getElementById('progressBar').addEventListener('click', e => {
-      // ???
       let seekTo = e.offsetX / e.target.offsetWidth * player.getDuration()
-      console.log('seekTo', e)
-      // console.log('seekTo', seekTo)
       player.seekTo(seekTo)
       socket.emit('state', { id: vidId, playing: true, timestamp: seekTo, room: vidId });
-      // ???
     })
-    console.log(player.getCurrentTime())
     progressBarController.style.left = position + '%'
   }, 200);
 }
 
 let playButton = document.getElementById('playButton').addEventListener('click', e => {
-  console.log(e.target)
   if (playState) {
     pauseVideo()
     e.target.innerHTML = playIcon
-    console.log('play', playIcon)
   } else if (!playState) {
     startVideo()
     e.target.innerHTML = pauseIcon
-    console.log('pause', pauseIcon)
   }
 })
 
