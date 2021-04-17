@@ -61,9 +61,6 @@ let playButton = document.getElementById('playButton').addEventListener('click',
   playState ? (pauseVideo(), e.target.textContent = '▶️') : (startVideo(), e.target.textContent = '⏸️');
 })
 
-function handleFullscreen(){
-  console.dir(player)
-}
 /**
 * 
 * * IFRAME EVENTS
