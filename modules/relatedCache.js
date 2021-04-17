@@ -13,7 +13,7 @@ exports.setCache = (key, value) => {
         port: process.env.REDIS_PORT
     });
 
-    return (client.set(key, value), client.quit())
+    return (client.set(key, value))
 }
 
 /**
@@ -28,7 +28,7 @@ exports.getCache = async (key) => {
         port: process.env.REDIS_PORT
     });
 
-    return (await client.get(key), client.quit())
+    return (await client.get(key))
 }
 
 /**
@@ -43,7 +43,7 @@ exports.getMultiple = async (keys) => {
         port: process.env.REDIS_PORT
     });
 
-    return (client.mget(keys), client.quit())
+    return (client.mget(keys))
 }
 
 /**
@@ -58,5 +58,5 @@ exports.deleteCache = (key) => {
         port: process.env.REDIS_PORT
     });
 
-    return (client.del(key), client.quit())
+    return (client.del(key))
 }
