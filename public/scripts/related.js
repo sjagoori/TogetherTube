@@ -5,7 +5,7 @@ const relatedContainer = document.getElementsByTagName('section')[0].children[1]
 socket.emit('getRelated', vidId)
 
 socket.on('setRelated', (emitted) => {
-  emitted.items.map(key => generateCards(key.snippet.title, key.snippet.description, key.snippet.channelTitle, key.snippet.thumbnails, key.id.videoId))
+if (relatedContainer.children.length == 0) emitted.items.map(key => generateCards(key.snippet.title, key.snippet.description, key.snippet.channelTitle, key.snippet.thumbnails, key.id.videoId))
 })
 
 function generateCards(title, description, channelTitle, thumbnail, link) {
