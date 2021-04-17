@@ -196,7 +196,7 @@ figure figcaption span {
 #metaData {
   display: flex;
   flex-direction: row-reverse;
-  align-items: center;
+  align-items: flex-start;
   margin-top: -20px;
   justify-content: space-between;
 }
