@@ -25,7 +25,9 @@ function onYouTubeIframeAPIReady() {
     playerVars: {
       modestbranding: 1,
       controls: 0,
-      autoplay: true,
+      allowfullscreen: 1,
+      fs: 1,
+      // autoplay: true,
       showinfo: 0
     },
     height: '390',
@@ -58,6 +60,10 @@ function handlePlayer() {
 let playButton = document.getElementById('playButton').addEventListener('click', e => {
   playState ? (pauseVideo(), e.target.textContent = '▶️') : (startVideo(), e.target.textContent = '⏸️');
 })
+
+function handleFullscreen(){
+  console.dir(player)
+}
 /**
 * 
 * * IFRAME EVENTS

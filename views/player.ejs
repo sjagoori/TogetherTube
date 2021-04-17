@@ -15,10 +15,15 @@
       <main id=<%= prep %>>
         <div id="player"></div>
         <div class="playerControls">
-          <span id="playButton">▶️</span>
-          <div id="progressBar">
+          <span id="playButton" class="control">
+            <svg width="13" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 7.134a1 1 0 010 1.732L2 14.928a1 1 0 01-1.5-.866V1.938A1 1 0 012 1.072l10.5 6.062z" fill="#fff"/></svg>
+          </span>
+          <div id="progressBar" class="control">
             <div id="progressBarController"></div>
           </div>
+          <span id="fullscreenButton" class="control">
+            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)" stroke="#fff" stroke-width="2"><path d="M5.709.677L1.579.55a1 1 0 00-1.03 1.03l.128 4.13M10 15.032l4.13.128a1 1 0 001.03-1.03L15.032 10"/></g><defs><clipPath id="clip0"><path fill="#fff" d="M0 0h15.59v15.59H0z"/></clipPath></defs></svg>
+          </span>
         </div>
         <div id="metaData">
           <div id="onlineCount">
@@ -54,5 +59,6 @@
   <script src="/scripts/player.js"></script>
   <script async src="/scripts/chat.js"></script>
   <script async src="/scripts/related.js"></script>
+  <script async src="/scripts/removeBranding.js"></script>
 
 </html>

@@ -221,6 +221,7 @@ figure figcaption span {
   width: 80%;
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
   top: -45px;
   overflow: hidden;
@@ -228,13 +229,21 @@ figure figcaption span {
 
 .playerControls div {
   display: block;
-  width: 90%;
+  width: 70%;
   height: 5px;
   background-color: white;
 }
 
 .playerControls #playButton {
-  margin-right: 10px;
+  margin-right: 20px;
+}
+
+.playerControls #fullscreenButton {
+  margin-left: 20px;
+}
+
+.control{
+  cursor: pointer;
 }
 
 #progressBarController {
@@ -242,7 +251,7 @@ figure figcaption span {
   position: relative;
   pointer-events: none;
   left: 0%;
-  background-color: grey;
+  background-color: #0C0C0D90;
 }
 
 #progressBarController:after{
