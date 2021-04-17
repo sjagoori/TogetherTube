@@ -20,20 +20,15 @@ const router = require('./routes/router.js');
  * * Socket.io config
  */
 io.on('connection', (socket) => {
-  console.log('user connected');
-  io.emit('userJoined');
-
   socket.on('join', (room) => {
-    console.log('joining: ', room)
     socket.join(room)
-    io.to(room).emit('userJoined');
+    socket.broadcast.to(room).emit('userJoined');
 
     if (io.sockets.adapter.rooms.get(room)) socket.emit('onlineCount', io.sockets.adapter.rooms.get(room).size)
     if (messageCache.getCache(room) == undefined) messageCache.setCache(room, [])
   })
 
   socket.on('state', (emitted) => {
-    console.log('state', emitted)
     io.to(emitted.room).emit('state', emitted);
 
     emitted.playing ? io.to(emitted.room).emit('playback', true) : io.to(emitted.room).emit('playback', false)
@@ -56,13 +51,14 @@ io.on('connection', (socket) => {
 
   socket.on('getRelated', async (room) => {
     let callString = `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${room}&type=video&key=${process.env.API_KEY}`
-    if (relatedCache.getCache(room) == undefined) relatedCache.setCache(room, [await axios.get(callString).then(res => res.data)])
-    io.to(room).emit('setRelated', relatedCache.getCache(room)[0])
-  })
 
-  socket.on('disconnect', () => {
-    console.log('disconnected');
-  });
+    if (await relatedCache.getCache(room) == null) {
+      await relatedCache.setCache(room, JSON.stringify([await axios.get(callString).then(res => res.data)]))
+      await io.to(room).emit('setRelated', JSON.parse(await relatedCache.getCache(room))[0])
+    } else {
+      io.to(room).emit('setRelated', JSON.parse(await relatedCache.getCache(room))[0])
+    }
+  })
 });
 
 
