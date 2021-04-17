@@ -48,15 +48,15 @@ TogetherTube is a YouTube client that brings YouTube and playback sync together 
 **Get a YouTube API key**   
 Requirements:
 * Google account
+* Redis database
 
-Guide: 
+Get your Youtube API key: 
 1. Open the cloud console [link](https://console.cloud.google.com/apis/dashboard)
 2. Create a project 
 3. Open the project
 4. Go to the `API Console`
 5. Enable `YouTube Data API v3`
 6. Copy your API key to the `.env` file in project root
-
 
 **API response sample**
 ```json
@@ -87,6 +87,15 @@ Guide:
 }
 ```
 
+Set up Redis database: 
+* Local:
+  * Windows: (guide)[https://redislabs.com/blog/redis-on-windows-10/]
+  * MacOS using `homebrew`: `brew install redis`
+  * Unix using buildtools: (download binary)[https://redis.io/download]
+* Cloud (preferred method)
+  1. Create an account at (RedisLabs)[https://redislabs.com/try-free/]
+  2. Copy credentials to the `.env` in project root
+
 **Run the project:**
 1. Install dependencies
 `npm install`
@@ -97,6 +106,7 @@ Guide:
 * [Youtube Data API v3](https://developers.google.com/youtube/v3)
 * [Youtube Data API v3 - Search](https://developers.google.com/youtube/v3/docs/search)
 * [Socket.io v4 - Documentation](https://socket.io/docs/v4)
+* [Async-Redis - Documentation](https://www.npmjs.com/package/async-redis)
 
 ## 📝 License
 [GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
