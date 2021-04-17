@@ -1,4 +1,4 @@
-const form = document.getElementsByTagName('form')[0];
+const form = document.getElementsByTagName('form')[1];
 const messages = document.getElementsByTagName('ol')[0];
 
 socket.emit('getMessages', vidId)

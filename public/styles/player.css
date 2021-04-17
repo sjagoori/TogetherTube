@@ -22,6 +22,22 @@ body>div {
   justify-content: space-between;
 }
 
+header {
+  margin-bottom: 30px;
+}
+
+header form {
+  display: flex;
+  justify-content: center;
+}
+
+header form input#query {
+  background-color: var(--pane-color-light);
+  border-radius: 30px;
+  margin-right: 10px;
+  width: 30%;
+}
+
 main iframe {
   border-radius: 30px;
   width: 40rem;
@@ -38,7 +54,8 @@ aside form {
   border-radius: 30px;
 }
 
-form input {
+aside form input,
+header form input {
   border: none;
   background-color: var(--bg-color);
   padding: 15px 15px;
@@ -54,26 +71,26 @@ form input:hover {
   padding: 20px 30px;
 }
 
-form input:nth-of-type(1) {
+aside form input:nth-of-type(1) {
   width: 5rem
 }
 
-form div:nth-of-type(2) {
+aside form div:nth-of-type(2) {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
 
-form div:nth-of-type(2) div{
+aside form div:nth-of-type(2) div {
   display: flex;
   gap: 5px;
 }
 
-form div input[id="message"]{
+aside form div input[id="message"] {
   width: 100%;
 }
 
-form div ol {
+aside form div ol {
   list-style: none;
   height: 13rem;
   overflow-y: auto;
@@ -81,7 +98,7 @@ form div ol {
   padding: 0;
 }
 
-form div ol li {
+aside form div ol li {
   padding: 10px 10px;
   background-color: #CCC;
   max-width: 290px;
@@ -91,7 +108,7 @@ form div ol li {
   color: black;
 }
 
-[type="server-message"] { 
+[type="server-message"] {
   background-color: #FFCC00;
 }
 
@@ -182,7 +199,7 @@ figure figcaption span {
   color: red;
 }
 
-.playerControls{
+.playerControls {
   margin-left: 50%;
   transform: translateX(-50%);
   width: 80%;
@@ -204,7 +221,7 @@ figure figcaption span {
   margin-right: 10px;
 }
 
-#progressBarController{
+#progressBarController {
   height: 10px;
   width: 10px;
   position: relative;
@@ -220,6 +237,9 @@ figure figcaption span {
     width: clamp(20rem, 80vw, 80rem);
   }
 
+  header form input {
+    width: 60%;
+  }
 
   body>div {
     width: 100%;
