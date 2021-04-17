@@ -2,7 +2,7 @@
 *TogetherTube is a YouTube client that brings YouTube and playback sync together!*
 
 ![](./assets/images/landing.png)
-![](./assets/images/active.png)
+[![Watch the video](./assets/images/active.png)](./assets/videosync.mov)
 
 <table style="margin-left: auto; margin-right: auto;">
     <tr>
