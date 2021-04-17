@@ -64,6 +64,26 @@ form div:nth-of-type(2) {
   gap: 20px;
 }
 
+form div ol {
+  list-style: none;
+  height: 10rem;
+  overflow-y: auto;
+  padding: 0;
+}
+
+form div ol li {
+  padding: 5px 10px;
+  background-color: #CCC;
+  width: max-content;
+  margin-bottom: 1rem;
+  border-radius: 30px;
+  color: black;
+}
+
+[type="server-message"] { 
+  background-color: #FFCC00;
+}
+
 form button {
   border: none;
   padding: 20px 20px;
@@ -82,6 +102,8 @@ form button:focus {
 }
 
 aside form fieldset {
+  padding: 0;
+  border-bottom: 1px solid grey;
   border: none;
   font-size: 1.8rem;
 }

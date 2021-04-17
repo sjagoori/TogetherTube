@@ -17,7 +17,7 @@ form.addEventListener('submit', (e) => {
     socket.emit('message', { name: name, message: message, timestamp: timestamp, room: vidId });
     document.forms[0][2].value = '';
     addMessage(message, name, timestamp)
-    return true;
+    // return true;
   }
 });
 
@@ -31,17 +31,19 @@ socket.on('setMessages', (emitted) => {
 
 socket.on('userJoined', () => {
   console.log("USER HAS JOINED")
-  addMessage('User has joined the chat', '>', +new Date)
+  addMessage('Someone has joined the chat', 'Server', +new Date)
 })
 
 function addMessage(message, name, timestamp) {
   console.log(timestamp)
   let timeObject = new Date(new Date(timestamp).getTime() - (24 * 60 * 60 * 1000))
   let newMessage = document.createElement('li');
-  console.log(message, name)
+
   newMessage.innerText = `${name}: ${message} - ${timeObject.getHours()}:${timeObject.getMinutes()} `;
   newMessage.setAttribute('class', 'newMessage');
+  if (name == 'Server') newMessage.setAttribute('type', 'server-message')
   messages.appendChild(newMessage);
+
   newMessage.scrollIntoView(true);
   setTimeout(function () {
     newMessage.removeAttribute('class', 'newMessage');
