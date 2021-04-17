@@ -275,10 +275,20 @@ figure figcaption span {
     width: 50%;
   }
 
+
+#metaData {
+  margin-top: -7px;
+}
+
+
   body>div {
     width: 100%;
     /* width: clamp(20rem, 90vw, 90rem); */
     flex-direction: column;
+  }
+
+  main{
+    margin-bottom: 5%;
   }
 
   main iframe {
