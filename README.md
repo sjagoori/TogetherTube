@@ -92,11 +92,11 @@ Get your Youtube API key:
 
 Set up Redis database: 
 * Local:
-  * Windows: (guide)[https://redislabs.com/blog/redis-on-windows-10/]
+  * Windows: [guide](https://redislabs.com/blog/redis-on-windows-10/)
   * MacOS using `homebrew`: `brew install redis`
-  * Unix using buildtools: (download binary)[https://redis.io/download]
+  * Unix using buildtools: [download binary](https://redis.io/download)
 * Cloud (preferred method)
-  1. Create an account at (RedisLabs)[https://redislabs.com/try-free/]
+  1. Create an account at [RedisLabs](https://redislabs.com/try-free/)
   2. Copy credentials to the `.env` in project root
 
 **Run the project:**
