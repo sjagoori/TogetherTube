@@ -183,6 +183,10 @@ figure figcaption span {
   background-color: red;
 }
 
+.playerControls #playButton {
+  margin-right: 10px;
+}
+
 #progressBarController{
   height: 10px;
   width: 10px;

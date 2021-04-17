@@ -56,7 +56,7 @@ function handlePlayer() {
 }
 
 let playButton = document.getElementById('playButton').addEventListener('click', e => {
-  playState ? pauseVideo() : startVideo()
+  playState ? (pauseVideo(), e.target.textContent = '▶️') : (startVideo(), e.target.textContent = '⏸️');
 })
 /**
 * 
