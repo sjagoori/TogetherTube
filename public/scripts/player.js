@@ -3,6 +3,8 @@ let socket = io();
 let vidId = document.getElementsByTagName('main')[0].id
 let progressBarController = document.getElementById('progressBarController')
 let metaData = document.getElementById('metaData')
+let playIcon = `<path d="M12.5 7.134a1 1 0 010 1.732L2 14.928a1 1 0 01-1.5-.866V1.938A1 1 0 012 1.072l10.5 6.062z" fill="#fff"/>`
+let pauseIcon = `<path stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M2.5 13.5v-11M12.5 13.5v-11"/>`
 /**
  * * Emit a joined event; join a room 
  **/
@@ -58,7 +60,16 @@ function handlePlayer() {
 }
 
 let playButton = document.getElementById('playButton').addEventListener('click', e => {
-  playState ? (pauseVideo(), e.target.textContent = '▶️') : (startVideo(), e.target.textContent = '⏸️');
+  console.log(e.target)
+  if (playState) {
+    pauseVideo()
+    e.target.innerHTML = playIcon
+    console.log('play', playIcon)
+  } else if (!playState) {
+    startVideo()
+    e.target.innerHTML = pauseIcon
+    console.log('pause', pauseIcon)
+  }
 })
 
 /**
