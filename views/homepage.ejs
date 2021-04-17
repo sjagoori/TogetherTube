@@ -4,12 +4,12 @@
 <%- include('partials/head', { title: "Homepage" , css: "homepage" })%>
 
   <body>
-    <header>
-      <h1>Hello</h1>
-    </header>
-
     <main>
+      <span>👥 📺 </span>
+      <h1>TogetherTube</h1>
+      <i>Watch YouTube videos and chat in real-time</i>
       <form action="handleQuery" method="POST">
+        <fieldset>Enter a YouTube link to begin</fieldset>
         <input type="text" name="query" id="query" placeholder="https://www.youtube.com/watch?v=_m9aciePKEk">
         <button type="submit">Open room</button>
       </form>
