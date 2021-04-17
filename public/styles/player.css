@@ -51,7 +51,7 @@ aside form {
   flex-direction: column;
   justify-content: space-between;
   background-color: var(--pane-color);
-  padding: 20px;
+  padding: 40px;
   border-radius: 30px;
 }
 
