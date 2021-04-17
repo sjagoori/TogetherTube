@@ -193,12 +193,27 @@ figure figcaption span {
 }
 
 
-#onlineCount {
+#metaData {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin-top: -20px;
+  justify-content: space-between;
+}
+
+#metaData>span {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+#metaData div {
   display: flex;
   align-items: center;
   fill: red;
   color: red;
 }
+
+
 
 .playerControls {
   margin-left: 50%;

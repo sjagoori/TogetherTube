@@ -2,7 +2,7 @@ console.log('player.js running')
 let socket = io();
 let vidId = document.getElementsByTagName('main')[0].id
 let progressBarController = document.getElementById('progressBarController')
-
+let metaData = document.getElementById('metaData')
 /**
  * * Emit a joined event; join a room 
  **/
@@ -63,14 +63,12 @@ let playButton = document.getElementById('playButton').addEventListener('click',
 * * IFRAME EVENTS
 * 
 **/
-
-
-function handleTimestamps(event) {
-  socket.emit('state', { id: vidId, playing: true, timestamp: event.target.getCurrentTime(), room: vidId });
-}
-
 function onPlayerReady(event) {
   handlePlayer()
+
+  let title = document.createElement('span')
+  title.textContent = event.target.getVideoData().title
+  metaData.appendChild(title)
   playState = true
 }
 
