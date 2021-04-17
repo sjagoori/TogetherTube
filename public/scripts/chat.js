@@ -1,5 +1,6 @@
 const form = document.getElementsByTagName('form')[1];
 const messages = document.getElementsByTagName('ol')[0];
+const message = document.getElementById('message')
 
 socket.emit('getMessages', vidId)
 
@@ -10,14 +11,13 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
 
   let name = e.target[1].value
-  let message = e.target[2].value
+  let messageContent = e.target[2].value
   let timestamp = +new Date
 
-  if (message != '') {
-    socket.emit('message', { name: name, message: message, timestamp: timestamp, room: vidId });
-    document.forms[0][2].value = '';
-    addMessage(message, name, timestamp)
-    // return true;
+  if (messageContent != '') {
+    socket.emit('message', { name: name, message: messageContent, timestamp: timestamp, room: vidId });
+    addMessage(messageContent, name, timestamp)
+    message.value = '';
   }
 });
 
