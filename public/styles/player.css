@@ -20,10 +20,11 @@ body>div {
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10%;
 }
 
 header {
-  margin-bottom: 30px;
+  margin: 5% 0%;
 }
 
 header form {
@@ -237,8 +238,8 @@ figure figcaption span {
     width: clamp(20rem, 80vw, 80rem);
   }
 
-  header form input {
-    width: 60%;
+  header form input#query {
+    width: 50%;
   }
 
   body>div {
