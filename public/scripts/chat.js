@@ -35,7 +35,7 @@ socket.on('userJoined', () => {
 })
 
 function addMessage(message, name, timestamp) {
-  console.log(timestamp)
+  if (name == '') name = 'Anon'
   let timeObject = new Date(new Date(timestamp).getTime() - (24 * 60 * 60 * 1000))
   let newMessage = document.createElement('li');
 
