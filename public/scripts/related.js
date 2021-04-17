@@ -9,10 +9,6 @@ if (relatedContainer.children.length == 0) emitted.items.map(key => generateCard
 })
 
 function generateCards(title, description, channelTitle, thumbnail, link) {
-  // let a = document.createElement('p')
-  // a.textContent = title
-  // relatedContainer.appendChild(a)
-
   let content =
     `
     <a href=${link}>
@@ -38,11 +34,6 @@ function generateCards(title, description, channelTitle, thumbnail, link) {
   `
 
   relatedContainer.innerHTML += content
-  // relatedContainer.appendChild(new DOMParser().parseFromString(content, 'text/xml').firstChild())
-  // console.log(description.split('\n')[0])
-  // console.log(channelTitle)
-  console.log(thumbnail)
-  // console.log(link)
 }
 
 socket.emit('getRelated', vidId)
