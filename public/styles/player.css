@@ -267,7 +267,6 @@ figure figcaption span {
 
 @media only screen and (max-width: 1500px) {
   body {
-    /* margin: 0 auto; */
     width: clamp(20rem, 80vw, 80rem);
   }
 
@@ -283,7 +282,6 @@ figure figcaption span {
 
   body>div {
     width: 100%;
-    /* width: clamp(20rem, 90vw, 90rem); */
     flex-direction: column;
   }
 
@@ -297,8 +295,6 @@ figure figcaption span {
 
   aside form {
     margin-left: 0px;
-    /* width: 50%; */
-    /* height: 400px; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
