@@ -17,7 +17,6 @@ router.post("/handleQuery", (req, res) => {
   );
 
   let prep = query ? query[2] : "N2kyzdw_RWs";
-  console.log(prep);
 
   return res.redirect("/" + prep);
 });
