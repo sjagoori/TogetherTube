@@ -12,11 +12,14 @@ router.get("/:videoId", (req, res) => {
 });
 
 router.post("/handleQuery", (req, res) => {
-  let prep = req.body.query.match(
+  let query = req.body.query.match(
     /^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/
   );
 
-  return res.redirect("/" + prep ? prep[2] : "N2kyzdw_RWs");
+  let prep = query ? query[2] : "N2kyzdw_RWs";
+  console.log(prep);
+
+  return res.redirect("/" + prep);
 });
 
 module.exports = router;
