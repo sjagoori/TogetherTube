@@ -7,7 +7,7 @@ router.get("/video/:videoId", (req, res) => {
   return res.render("player", { prep: prep });
 });
 
-router.post("/handleQuery", (req, res) => {
+router.post("/video/handleQuery", (req, res) => {
   let query = req.body.query.match(
     /^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/
   );
