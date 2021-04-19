@@ -4,7 +4,8 @@ const cacheURLs = [
   "./service-worker.js",
   "./manifest.json",
   "./offline.html",
-  "./css/homepage.css",
+  "./styles/homepage.css",
+  "./styles/player.css",
 ];
 
 if ("serviceWorker" in navigator) {
