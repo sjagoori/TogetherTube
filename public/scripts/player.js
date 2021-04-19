@@ -83,6 +83,7 @@ function onPlayerReady(event) {
   title.textContent = event.target.getVideoData().title;
   metaData.appendChild(title);
   playState = true;
+  document.title = event.target.getVideoData().title;
 }
 
 function pauseVideo() {
