@@ -55,6 +55,7 @@ TogetherTube is a YouTube client that brings YouTube and playback sync together 
 ### Noteworthy considerations
 
 This project has two data sources for caching the messages and related videos:
+
 **Related cache**  
 The related cache contains cached API calls from the YouTube data API. It is created when the user opens a room that has not been cached previously. The cache has the following structure:
 
