@@ -1,5 +1,6 @@
 # 📺 TogetherTube
-*TogetherTube is a YouTube client that brings YouTube and playback sync together!*
+
+_TogetherTube is a YouTube client that brings YouTube and playback sync together!_
 
 ![](./assets/images/landing.png)
 ![](./assets/images/active.png)
@@ -18,10 +19,11 @@
 </table>
 
 ## 💻Live demo
+
 [Link to the demo](https://real-time-web-2021.herokuapp.com/)
 
-
 ## 💡The concept
+
 TogetherTube is a YouTube client that brings YouTube and playback sync together using Socket.io. Users can enter a YouTube URL in the search bar to open a player. On that page, they'll be greeted with the desired video along a live chat and related videos.
 
 <details>
@@ -38,81 +40,119 @@ TogetherTube is a YouTube client that brings YouTube and playback sync together 
     <img src='./assets/images/concept2_data.png'>
 </details>
 
-## 📝Features 
-* Search any YouTube video
-* Play any YouTube video
-* Watch any YouTube video together
-* Chat together on any YouTube video
-* Get related videos on any YouTube video
+## 📝Features
+
+- Search any YouTube video
+- Play any YouTube video
+- Watch any YouTube video together
+- Chat together on any YouTube video
+- Get related videos on any YouTube video
 
 ## 🔄Data lifecycle diagram
+
 ![](./assets/images/data_lifecycle_diagram.png)
 
-## 🤖 Installation
-**Get a YouTube API key**   
-Requirements:
-* Google account
-* Redis database
+### Noteworthy considerations
 
-Get your Youtube API key: 
+This project has two data sources for caching the messages and related videos:
+**Related cache**  
+The related cache contains cached API calls from the YouTube data API. It is created when the user opens a room that has not been cached previously. The cache has the following structure:
+
+```json
+{
+  "roomId": [
+    {
+        "kind": "youtube#searchResult",
+        "etag": etag,
+        "id": {
+            "kind": string,
+            "videoId": string,
+            "channelId": string,
+            "playlistId": string
+        },
+        "snippet": {
+            "publishedAt": datetime,
+            "channelId": string,
+            "title": string,
+            "description": string,
+            "thumbnails": {
+            (key): {
+                "url": string,
+                "width": unsigned integer,
+                "height": unsigned integer
+            }
+            },
+            "channelTitle": string,
+            "liveBroadcastContent": string
+        }
+    }
+  ]
+}
+```
+
+While the related videos is a nice-to-have feature, it is not essential to the core functionality. Therefore, it has been decided to load the related cache in `async`. Furthermore, in consideration to the API quota limit, the cache is hosted on a remote, cloud-based Redis database. This does add some latency; the application fetches data over the internet, transforms the data, then sends it to the client over the internet.
+
+**Messages cache**  
+The messages are cached in a local JSON file called `messagesCache` with the following structure:
+
+```json
+{
+  "roomId": [
+      {
+      "name": string,
+      "message": string,
+      "timestamp": number,
+      "room": string
+    },
+  ]
+}
+
+The chat functionality uses instant messaging therefore it is essential to fetch, save, and send data as fast as possible. That considered, it has been decided that storing messages in a local file is the preferred method.
+```
+
+## 🤖 Installation
+
+**Get a YouTube API key**  
+Requirements:
+
+- Google account
+- Redis database
+
+Get your Youtube API key:
+
 1. Open the cloud console [link](https://console.cloud.google.com/apis/dashboard)
-2. Create a project 
+2. Create a project
 3. Open the project
 4. Go to the `API Console`
 5. Enable `YouTube Data API v3`
 6. Copy your API key to the `.env` file in project root
 
-**API response sample**
-```json
-{
-    "kind": "youtube#searchResult",
-    "etag": etag,
-    "id": {
-        "kind": string,
-        "videoId": string,
-        "channelId": string,
-        "playlistId": string
-    },
-    "snippet": {
-        "publishedAt": datetime,
-        "channelId": string,
-        "title": string,
-        "description": string,
-        "thumbnails": {
-        (key): {
-            "url": string,
-            "width": unsigned integer,
-            "height": unsigned integer
-        }
-        },
-        "channelTitle": string,
-        "liveBroadcastContent": string
-    }
-}
-```
+Set up Redis database:
 
-Set up Redis database: 
-* Local:
-  * Windows: [guide](https://redislabs.com/blog/redis-on-windows-10/)
-  * MacOS using `homebrew`: `brew install redis`
-  * Unix using buildtools: [download binary](https://redis.io/download)
-* Cloud (preferred method)
+- Local:
+  - Windows: [guide](https://redislabs.com/blog/redis-on-windows-10/)
+  - MacOS using `homebrew`: `brew install redis`
+  - Unix using buildtools: [download binary](https://redis.io/download)
+- Cloud (preferred method)
   1. Create an account at [RedisLabs](https://redislabs.com/try-free/)
   2. Copy credentials to the `.env` in project root
 
 **Run the project:**
+
 1. Install dependencies
-`npm install`
+   `npm install`
 2. Run project
-`npm start`
+   `npm start`
 
 ## 🤝 Sources
-* [Youtube Data API v3](https://developers.google.com/youtube/v3)
-* [Youtube Data API v3 - Search](https://developers.google.com/youtube/v3/docs/search)
-* [Socket.io v4 - Documentation](https://socket.io/docs/v4)
-* [Async-Redis - Documentation](https://www.npmjs.com/package/async-redis)
+
+- [Youtube Data API v3](https://developers.google.com/youtube/v3)
+- [Youtube Data API v3 - Search](https://developers.google.com/youtube/v3/docs/search)
+- [Socket.io v4 - Documentation](https://socket.io/docs/v4)
+- [Async-Redis - Documentation](https://www.npmjs.com/package/async-redis)
 
 ## 📝 License
+
 [GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
 
 ![](https://visitor-badge.laobi.icu/badge?page_id=sjagoori.realtime-web)
