@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head', { title: "Homepage" , css: "homepage" })%>
+
+  <body>
+    <main>
+      <span>👥 📺 </span>
+      <h1>TogetherTube</h1>
+      <i>Watch YouTube videos and chat in real-time</i>
+      <h2>You're offline</h2>
+      <form action="handleQuery" method="POST">
+        <fieldset disabled>Enter a YouTube link to begin</fieldset>
+        <input
+          type="text"
+          name="query"
+          id="query"
+          placeholder="https://www.youtube.com/watch?v=_m9aciePKEk"
+        />
+        <button type="submit">Open room</button>
+      </form>
+    </main>
+  </body>
+  <script src="/scripts/homepage.js"></script>
+</html>
