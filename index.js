@@ -80,13 +80,12 @@ io.on("connection", (socket) => {
  * * Server config
  */
 
+app.use(express.static(path.resolve("public")));
+
 app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/", router);
-
-//fallback?
-app.use(express.static(path.resolve("public")));
 
 http.listen(port, () => {
   console.log(`listening to port ${port}`);
