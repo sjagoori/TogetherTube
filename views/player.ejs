@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('partials/head', { title: "Player" , css: 'player' })%>
+
+<%- include('partials/head', { title: "Player" , css: 'player' })%>
 
   <body>
     <header>
       <form action="handleQuery" method="POST">
-        <input
-          type="text"
-          name="query"
-          id="query"
-          placeholder="https://www.youtube.com/watch?v=_m9aciePKEk"
-        />
+        <input type="text" name="query" id="query" placeholder="https://www.youtube.com/watch?v=_m9aciePKEk">
         <button type="submit">Open room</button>
       </form>
     </header>
 
     <div>
-      <main id="<%" ="prep" %>
-        >
+      <main id=<%=prep %>>
         <div id="player"></div>
         <div class="playerControls">
           <span id="playButton" class="control">
-            <svg
-              width="13"
-              height="16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12.5 7.134a1 1 0 010 1.732L2 14.928a1 1 0 01-1.5-.866V1.938A1 1 0 012 1.072l10.5 6.062z"
-                fill="#fff"
-              />
+            <svg width="13" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.5 7.134a1 1 0 010 1.732L2 14.928a1 1 0 01-1.5-.866V1.938A1 1 0 012 1.072l10.5 6.062z"
+                fill="#fff" />
             </svg>
           </span>
           <div id="progressBar" class="control">
             <div id="progressBarController"></div>
           </div>
+          <span id="fullscreenButton" class="control">
+            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0)" stroke="#fff" stroke-width="2">
+                <path
+                  d="M5.709.677L1.579.55a1 1 0 00-1.03 1.03l.128 4.13M10 15.032l4.13.128a1 1 0 001.03-1.03L15.032 10" />
+              </g>
+              <defs>
+                <clipPath id="clip0">
+                  <path fill="#fff" d="M0 0h15.59v15.59H0z" />
+                </clipPath>
+              </defs>
+            </svg>
+          </span>
         </div>
         <div id="metaData">
           <div id="onlineCount">
             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
               <path d="M0 0h24v24H0V0z" fill="none" />
               <path
-                d="M12 6a9.77 9.77 0 018.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5A9.77 9.77 0 0112 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5a2.5 2.5 0 010 5 2.5 2.5 0 010-5m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z"
-              />
+                d="M12 6a9.77 9.77 0 018.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5A9.77 9.77 0 0112 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5a2.5 2.5 0 010 5 2.5 2.5 0 010-5m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z" />
             </svg>
           </div>
         </div>
@@ -57,18 +57,8 @@
           </div>
           <div>
             <div>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                placeholder="Your name"
-              />
-              <input
-                type="text"
-                name="message"
-                id="message"
-                placeholder="Message"
-              />
+              <input type="text" name="name" id="name" placeholder="Your name">
+              <input type="text" name="message" id="message" placeholder="Message">
             </div>
             <button type="submit">Send</button>
           </div>
@@ -80,9 +70,11 @@
       <h2>Related videos</h2>
       <div></div>
     </section>
+
   </body>
 
   <script src="/scripts/player.js"></script>
   <script async src="/scripts/chat.js"></script>
   <script async src="/scripts/related.js"></script>
+
 </html>
