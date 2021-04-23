@@ -9,8 +9,8 @@ const db = low(adapter);
  * @param {Object} value - value
  */
 exports.setCache = async (room, value) => {
-    db.set(room, value).write();
-}
+  db.set(room, value).write();
+};
 
 /**
  * Function gets value for given key
@@ -18,5 +18,5 @@ exports.setCache = async (room, value) => {
  * @returns {Object} key's value
  */
 exports.getCache = (room) => {
-    return db.has(room).value() ? db.get(room).value() : undefined;
-}
+  return db.has(room).value() ? db.get(room).value() : undefined;
+};
