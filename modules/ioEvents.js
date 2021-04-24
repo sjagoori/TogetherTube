@@ -2,6 +2,11 @@ const messageCache = require("./messageCache");
 const relatedCache = require("./relatedCache.js");
 const getData = require("./getData.js");
 
+/**
+ * Function handles socket.io events
+ * @param {Object} client - socket instance
+ * @param {Object} server - io server instance
+ */
 exports.ioEvents = async (client, server) => {
   client.on("join", async (room) => {
     client.join(room);
@@ -29,14 +34,23 @@ exports.ioEvents = async (client, server) => {
   });
 }
 
+/**
+ * Function caches messages for given room
+ * @param {Object} message - Object with message and room name
+ */
 function cacheMessage(message) {
   let cache = messageCache.getCache(message.room);
   cache.push(message);
   messageCache.setCache(message.room, cache);
 }
 
-
+/**
+ * Function sends message cache to given room
+ * @param {String} room - room name
+ * @param {Object} server - server instance
+ */
 async function sendMessagesCache(room, server) {
+  console.log(typeof server)
   let cache = messageCache.getCache(room);
   let renderData = Object.values(cache)
     .map((key) =>
@@ -47,6 +61,11 @@ async function sendMessagesCache(room, server) {
   server.to(room).emit("setMessages", renderData);
 }
 
+/**
+ * Function caches related-videos or sends cached related-videos.
+ * @param {String} room - room name
+ * @param {Object} server - server instance
+ */
 async function sendRelatedCache(room, server) {
   let callString = `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${room}&type=video&key=${process.env.API_KEY}`;
   let cache = await relatedCache.getCache(room)
