@@ -13,11 +13,10 @@ exports.ioEvents = async (client, server) => {
     client.broadcast.to(room).emit("userJoined");
     client.emit("onlineCount", server.sockets.adapter.rooms.get(room).size);
 
+    if (messageCache.getCache(room) == undefined) messageCache.setCache(room, []);
+
     await sendRelatedCache(room, server);
     await sendMessagesCache(room, server);
-
-    if (messageCache.getCache(room) == undefined)
-      messageCache.setCache(room, []);
   });
 
   client.on("state", (emitted) => {
