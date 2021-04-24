@@ -38,6 +38,7 @@ function onYouTubeIframeAPIReady() {
     origin: "http://example.com",
     events: {
       onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange
     },
   });
 }
@@ -86,14 +87,25 @@ function onPlayerReady(event) {
   document.title = event.target.getVideoData().title;
 }
 
+function onPlayerStateChange(event) {
+  if (event.data == 1) {
+    startVideo();
+    playState = true;
+    socket.emit('playback', { room: vidId, state: playState })
+  }
+  if (event.data == 2) {
+    pauseVideo();
+    playState = false;
+    socket.emit('playback', { room: vidId, state: false })
+  }
+}
+
 function pauseVideo() {
   player.pauseVideo();
-  playState = false;
 }
 
 function startVideo() {
   player.playVideo();
-  playState = true;
 }
 
 /**
@@ -113,5 +125,6 @@ socket.on("state", (state) => {
 });
 
 socket.on("playback", (state) => {
+  console.log(state)
   state ? startVideo() : pauseVideo();
 });

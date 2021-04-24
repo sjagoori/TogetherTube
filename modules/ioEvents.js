@@ -6,31 +6,33 @@ exports.ioEvents = async (client, server) => {
   client.on("join", async (room) => {
     client.join(room);
     client.broadcast.to(room).emit("userJoined");
+    client.emit("onlineCount", server.sockets.adapter.rooms.get(room).size);
 
-    sendRelatedCache(room, server);
-    sendMessagesCache(room, server);
+    await sendRelatedCache(room, server);
+    await sendMessagesCache(room, server);
 
-    if (server.sockets.adapter.rooms.get(room))
-      client.emit("onlineCount", server.sockets.adapter.rooms.get(room).size);
     if (messageCache.getCache(room) == undefined)
       messageCache.setCache(room, []);
   });
 
   client.on("state", (emitted) => {
     server.to(emitted.room).emit("state", emitted);
-
-    emitted.playing
-      ? server.to(emitted.room).emit("playback", true)
-      : server.to(emitted.room).emit("playback", false);
   });
+
+  client.on('playback', (state) => {
+    server.to(state.room).emit('playback', state.state)
+  })
 
   client.on("message", (message) => {
-    console.dir(message);
-    let cache = messageCache.getCache(message.room);
-    cache.push(message);
-    messageCache.setCache(message.room, cache);
+    cacheMessage(message);
     client.broadcast.to(message.room).emit("message", message);
   });
+}
+
+function cacheMessage(message) {
+  let cache = messageCache.getCache(message.room);
+  cache.push(message);
+  messageCache.setCache(message.room, cache);
 }
 
 
