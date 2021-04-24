@@ -2,11 +2,9 @@ const form = document.getElementsByTagName('form')[1];
 const messages = document.getElementsByTagName('ol')[0];
 const message = document.getElementById('message')
 
-socket.emit('getMessages', vidId)
-
-console.log(form)
-
-
+/**
+ * Event handles sent messages
+ */
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
@@ -21,19 +19,12 @@ form.addEventListener('submit', (e) => {
   }
 });
 
-socket.on('message', (emitted) => {
-  addMessage(emitted.message, emitted.name, emitted.timestamp);
-});
-
-socket.on('setMessages', (emitted) => {
-  emitted.map(key => addMessage(key.message, key.name, key.timestamp))
-});
-
-socket.on('userJoined', () => {
-  console.log("USER HAS JOINED")
-  addMessage('Someone has joined the chat', 'Server', +new Date)
-})
-
+/**
+ * Function generates message bubbles in chat
+ * @param {String} message - message content
+ * @param {String} name = user name
+ * @param {Number} timestamp - message's timestamp 
+ */
 function addMessage(message, name, timestamp) {
   if (name == '') name = 'Anon'
   let timeObject = new Date(new Date(timestamp).getTime() - (24 * 60 * 60 * 1000))
@@ -43,9 +34,26 @@ function addMessage(message, name, timestamp) {
   newMessage.setAttribute('class', 'newMessage');
   if (name == 'Server') newMessage.setAttribute('type', 'server-message')
   messages.appendChild(newMessage);
-
-  newMessage.scrollIntoView(true);
-  setTimeout(function () {
-    newMessage.removeAttribute('class', 'newMessage');
-  }, 1500);
 }
+
+/**
+ * Socket event handles incoming messages
+ */
+socket.on('message', (emitted) => {
+  addMessage(emitted.message, emitted.name, emitted.timestamp);
+});
+
+/**
+ * Socket event handles messages sent from cache
+ */
+socket.on('setMessages', (emitted) => {
+  emitted.map(key => addMessage(key.message, key.name, key.timestamp))
+});
+
+/**
+ * Socket event handles join events
+ */
+socket.on('userJoined', () => {
+  console.log("USER HAS JOINED")
+  addMessage('Someone has joined the chat', 'Server', +new Date)
+})
