@@ -2,6 +2,9 @@ console.log('related.js running')
 
 const relatedContainer = document.getElementsByTagName('section')[0].children[1]
 
+/**
+ * Function handles related-videos
+ */
 socket.on('setRelated', (emitted) => {
   emitted[0].items.map(key => {
     if (key.snippet != undefined) {
@@ -15,6 +18,13 @@ socket.on('setRelated', (emitted) => {
   })
 })
 
+/**
+ * Function generates cards
+ * @param {String} title - video title
+ * @param {String} channelTitle - channel title
+ * @param {Object} thumbnail - object of thumbnail sources
+ * @param {String} link - link to video
+ */
 function generateCards(title, channelTitle, thumbnail, link) {
   let content =
     `
