@@ -3,11 +3,10 @@ let socket = io();
 let vidId = document.getElementsByTagName("main")[0].id;
 let progressBarController = document.getElementById("progressBarController");
 let metaData = document.getElementById("metaData");
+let playButton = document.getElementById("playButton").addEventListener("click", handlePlayButton);
 let playIcon = `<path d="M12.5 7.134a1 1 0 010 1.732L2 14.928a1 1 0 01-1.5-.866V1.938A1 1 0 012 1.072l10.5 6.062z" fill="#fff"/>`;
 let pauseIcon = `<path stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M2.5 13.5v-11M12.5 13.5v-11"/>`;
-/**
- * * Emit a joined event; join a room
- **/
+
 socket.emit("join", vidId);
 
 /**
@@ -43,6 +42,9 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
+/**
+ * Function monitors the player's play state and handles seek events
+ */
 function handlePlayer() {
   setInterval(function () {
     let position = (player.getCurrentTime() / player.getDuration()) * 100;
@@ -60,50 +62,69 @@ function handlePlayer() {
   }, 200);
 }
 
-let playButton = document
-  .getElementById("playButton")
-  .addEventListener("click", (e) => {
-    if (playState) {
-      pauseVideo();
-      e.target.innerHTML = playIcon;
-    } else if (!playState) {
-      startVideo();
-      e.target.innerHTML = pauseIcon;
-    }
-  });
-
+/**
+ * Function handles playButton events and player's playback state
+ * @param {Event} e - event
+ */
+function handlePlayButton(e) {
+  if (playState) {
+    pauseVideo();
+    e.target.innerHTML = playIcon;
+  } else if (!playState) {
+    startVideo();
+    e.target.innerHTML = pauseIcon;
+  }
+}
 /**
  *
  * * IFRAME EVENTS
  *
  **/
+
+/**
+ * Function handles onReady event
+ * @param {Event} event - event
+ */
 function onPlayerReady(event) {
   handlePlayer();
+  playState = true;
 
   let title = document.createElement("span");
   title.textContent = event.target.getVideoData().title;
   metaData.appendChild(title);
-  playState = true;
+
   document.title = event.target.getVideoData().title;
 }
 
+/**
+ * Function handles interaction with iFrame player
+ * @param {Event} event - event
+ */
 function onPlayerStateChange(event) {
-  if (event.data == 1) {
-    startVideo();
-    playState = true;
-    socket.emit('playback', { room: vidId, state: playState })
-  }
-  if (event.data == 2) {
-    pauseVideo();
-    playState = false;
-    socket.emit('playback', { room: vidId, state: false })
+  switch (event.data) {
+    case 1:
+      startVideo();
+      playState = true;
+      socket.emit('playback', { room: vidId, state: playState })
+      break;
+    case 2:
+      pauseVideo();
+      playState = false;
+      socket.emit('playback', { room: vidId, state: false })
+      break;
   }
 }
 
+/**
+ * Function pauses player
+ */
 function pauseVideo() {
   player.pauseVideo();
 }
 
+/**
+ * Function starts player
+ */
 function startVideo() {
   player.playVideo();
 }
@@ -114,16 +135,25 @@ function startVideo() {
  *
  **/
 
+/**
+ * Socket event handles online count and renders it on the DOM
+ */
 socket.on("onlineCount", (count) => {
   let counter = document.createElement("span");
   counter.textContent = count;
   document.getElementById("onlineCount").appendChild(counter);
 });
 
+/**
+ * Socket event handles seek event
+ */
 socket.on("state", (state) => {
   player.seekTo(state.timestamp);
 });
 
+/**
+ * Socket event handles playback state
+ */
 socket.on("playback", (state) => {
   console.log(state)
   state ? startVideo() : pauseVideo();
