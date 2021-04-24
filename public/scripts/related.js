@@ -6,7 +6,7 @@ const relatedContainer = document.getElementsByTagName('section')[0].children[1]
  * Function handles related-videos
  */
 socket.on('setRelated', (emitted) => {
-  emitted[0].items.map(key => {
+  if (relatedContainer.children.length == 0) emitted[0].items.map(key => {
     if (key.snippet != undefined) {
       generateCards(
         key.snippet.title,
