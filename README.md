@@ -81,7 +81,8 @@ The `message` event handles the sent messages from clients. The client emits a `
       "message": String,
       "timestamp": Number,
       "room": String
-  }
+    }
+  ]
 }
 ```
 
