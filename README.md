@@ -138,7 +138,8 @@ The messages are cached in a local JSON file called `messagesCache` with the fol
       "message": String,
       "timestamp": Number,
       "room": String
-  }
+    }
+  ]
 }
 ```
 The chat functionality uses instant messaging therefore it is essential to fetch, save, and send data as fast as possible. That considered, it has been decided that storing messages in a local file is the preferred method.
