@@ -54,7 +54,7 @@ TogetherTube is a YouTube client that brings YouTube and playback sync together 
 
 ### Real-time events
 1. State 
-The state event handles the seeking events sent from the client and broadcasts it to other clients. The state contains the `roomid`, `timestamp`, and `playstate`
+The `state` event handles the seeking events sent from the client and broadcasts it to other clients. The state contains the `roomid`, `timestamp`, and `playstate`
 ```javascript 
 {
   id: String,
@@ -64,7 +64,7 @@ The state event handles the seeking events sent from the client and broadcasts i
 }
 ```
 2. Playback
-The playback event handles the playback state of a give room. The array contains a room name and its playback state that is emitted to other clients connected to that room. The playback state is a boolean that plays the video on true and pauses it on false.
+The `playback` event handles the playback state of a give room. The array contains a room name and its playback state that is emitted to other clients connected to that room. The playback state is a boolean that plays the video on true and pauses it on false.
 ```javascript
 { 
   room: String, 
@@ -72,7 +72,7 @@ The playback event handles the playback state of a give room. The array contains
 }
 ```
 2. Message
-The message event handles the sent messages from clients. The client emits a `message` event which is fetched by the server, the server caches the message using the `cacheMessage` function, and then emits the received message object to the entire room which is then rendered to in the DOM.
+The `message` event handles the sent messages from clients. The client emits a `message` event which is fetched by the server, the server caches the message using the `cacheMessage` function, and then emits the received message object to the entire room which is then rendered to in the DOM.
 ```JSON
 {
   "roomName": [
