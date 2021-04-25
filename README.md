@@ -52,6 +52,39 @@ TogetherTube is a YouTube client that brings YouTube and playback sync together 
 
 ![](./assets/images/data_lifecycle_diagram.png)
 
+### Real-time events
+1. State 
+The state event handles the seeking events sent from the client and broadcasts it to other clients. The state contains the `roomid`, `timestamp`, and `playstate`
+```javascript 
+{
+  id: String,
+  playing: Boolean,
+  timestamp: Number,
+  room: String
+}
+```
+2. Playback
+The playback event handles the playback state of a give room. The array contains a room name and its playback state that is emitted to other clients connected to that room. The playback state is a boolean that plays the video on true and pauses it on false.
+```javascript
+{ 
+  room: String, 
+  state: Boolean 
+}
+```
+2. Message
+The message event handles the sent messages from clients. The client emits a `message` event which is fetched by the server, the server caches the message using the `cacheMessage` function, and then emits the received message object to the entire room which is then rendered to in the DOM.
+```JSON
+{
+  "roomName": [
+    {
+      "name": String,
+      "message": String,
+      "timestamp": Number,
+      "room": String
+  }
+}
+```
+
 ### Noteworthy considerations
 
 This project has two data sources for caching the messages and related videos:
@@ -59,7 +92,7 @@ This project has two data sources for caching the messages and related videos:
 **Related cache**  
 The related cache contains cached API calls from the YouTube data API. It is created when the user opens a room that has not been cached previously. The cache has the following structure:
 
-```json
+```JSON
 {
   "roomId": [
     {
@@ -96,20 +129,18 @@ While the related videos is a nice-to-have feature, it is not essential to the c
 **Messages cache**  
 The messages are cached in a local JSON file called `messagesCache` with the following structure:
 
-```json
+```JSON
 {
-  "roomId": [
-      {
-      "name": string,
-      "message": string,
-      "timestamp": number,
-      "room": string
-    },
-  ]
+  "roomName": [
+    {
+      "name": String,
+      "message": String,
+      "timestamp": Number,
+      "room": String
+  }
 }
-
-The chat functionality uses instant messaging therefore it is essential to fetch, save, and send data as fast as possible. That considered, it has been decided that storing messages in a local file is the preferred method.
 ```
+The chat functionality uses instant messaging therefore it is essential to fetch, save, and send data as fast as possible. That considered, it has been decided that storing messages in a local file is the preferred method.
 
 ## 🤖 Installation
 
