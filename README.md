@@ -47,6 +47,7 @@ TogetherTube is a YouTube client that brings YouTube and playback sync together 
 - Watch any YouTube video together
 - Chat together on any YouTube video
 - Get related videos on any YouTube video
+- Save TogetherTube as PWA on your device
 
 ## 🔄Data lifecycle diagram
 
