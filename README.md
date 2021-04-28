@@ -11,8 +11,8 @@ _TogetherTube is a YouTube client that brings YouTube and playback sync together
         <td align="center"><a href="#live-demo">💻Live demo<a></td>
         <td align="center"><a href="#the-concept">💡 The Concept<a></td>
         <td align="center"><a href="#features">📝Features <a></td>
-        <td align="center"><a href="#youtube-player-api">📺 YouTube Player API<a></td>
-        <td align="center"><a href="#youtube-data-api">📖 YouTube Data API<a></td>
+        <td align="center"><a href="#-youtube-player-api">📺 YouTube Player API<a></td>
+        <td align="center"><a href="#-youtube-data-api">📖 YouTube Data API<a></td>
         <td align="center"><a href="#data-lifecycle-diagram">🔄 Data lifecycle diagram<a></td>
         <td align="center"><a href="#-installation">🤖 Installation<a></td>
         <td align="center"><a href="#-sources">🤝 Sources<a></td>
