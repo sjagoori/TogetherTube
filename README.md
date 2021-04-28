@@ -255,7 +255,7 @@ The chat functionality is instant messaging therefore it is essential to fetch, 
 ## 🤖 Installation
 
 **Dependencies**
-* Node
+* [Node](https://nodejs.org/en/)
 * [Express](http://npmjs.com/package/express) `^4.17.1`
 * [EJS](https://www.npmjs.com/package/ejs) `^3.1.6`
 * [Dotenv](https://www.npmjs.com/package/dotenv) `^8.2.0`
