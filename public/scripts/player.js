@@ -3,9 +3,12 @@ let socket = io();
 let vidId = document.getElementsByTagName("main")[0].id;
 let progressBarController = document.getElementById("progressBarController");
 let metaData = document.getElementById("metaData");
-let playButton = document.getElementById("playButton").addEventListener("click", handlePlayButton);
+let playButton = document
+  .getElementById("playButton")
+  .addEventListener("click", handlePlayButton);
 let playIcon = `<path d="M12.5 7.134a1 1 0 010 1.732L2 14.928a1 1 0 01-1.5-.866V1.938A1 1 0 012 1.072l10.5 6.062z" fill="#fff"/>`;
 let pauseIcon = `<path stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M2.5 13.5v-11M12.5 13.5v-11"/>`;
+let videoTitle;
 
 socket.emit("join", vidId);
 
@@ -37,7 +40,7 @@ function onYouTubeIframeAPIReady() {
     origin: "http://example.com",
     events: {
       onReady: onPlayerReady,
-      onStateChange: onPlayerStateChange
+      onStateChange: onPlayerStateChange,
     },
   });
 }
@@ -90,10 +93,16 @@ function onPlayerReady(event) {
   playState = true;
 
   let title = document.createElement("span");
-  title.textContent = event.target.getVideoData().title;
+  videoTitle = event.target.getVideoData().title;
+  title.textContent = videoTitle;
   metaData.appendChild(title);
 
-  document.title = event.target.getVideoData().title;
+  document.title = videoTitle;
+  socket.emit("setMetaData", {
+    title: videoTitle,
+    duration: player.getDuration(),
+    room: vidId,
+  });
 }
 
 /**
@@ -105,12 +114,12 @@ function onPlayerStateChange(event) {
     case 1:
       startVideo();
       playState = true;
-      socket.emit('playback', { room: vidId, state: playState })
+      socket.emit("playback", { room: vidId, state: playState });
       break;
     case 2:
       pauseVideo();
       playState = false;
-      socket.emit('playback', { room: vidId, state: false })
+      socket.emit("playback", { room: vidId, state: false });
       break;
   }
 }
@@ -155,6 +164,6 @@ socket.on("state", (state) => {
  * Socket event handles playback state
  */
 socket.on("playback", (state) => {
-  console.log(state)
+  console.log(state);
   state ? startVideo() : pauseVideo();
 });
