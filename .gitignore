@@ -1,6 +1,7 @@
 node_modules
 messageCache.json
 relatedCache.json
+currentStreams.json
 .env
 .DS_Store
 */.DS_Store
