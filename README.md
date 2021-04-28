@@ -11,6 +11,8 @@ _TogetherTube is a YouTube client that brings YouTube and playback sync together
         <td align="center"><a href="#live-demo">💻Live demo<a></td>
         <td align="center"><a href="#the-concept">💡 The Concept<a></td>
         <td align="center"><a href="#features">📝Features <a></td>
+        <td align="center"><a href="#youtube-player-api">📺 YouTube Player API<a></td>
+        <td align="center"><a href="#youtube-data-api">📖 YouTube Data API<a></td>
         <td align="center"><a href="#data-lifecycle-diagram">🔄 Data lifecycle diagram<a></td>
         <td align="center"><a href="#-installation">🤖 Installation<a></td>
         <td align="center"><a href="#-sources">🤝 Sources<a></td>
@@ -48,6 +50,110 @@ TogetherTube is a YouTube client that brings YouTube and playback sync together 
 - Chat together on any YouTube video
 - Get related videos on any YouTube video
 - Save TogetherTube as PWA on your device
+
+### MoSCoW
+**Must haves**
+
+*Core functionality*   
+- [x] Create room by YouTube link
+- [x] Count of members in a room
+
+*Player*
+- [x] Play video in the room 
+
+*Chat*   
+- [x] Chat with other viewers
+- [x] Cache messages and restrict chat history to one hour
+
+*Related videos*   
+- [x] Display related videos
+- [x] Related video creates and joins new room
+- [x] Cache related videos on an external DB
+
+**Should haves**
+
+*Core functionality*
+- [x] Mobile friendly layout
+- [x] A search bar to paste links and open new rooms
+
+*Player*
+- [x] Sync position in the video with the room 
+- [x] Sync the playback state with the room 
+
+*Chat*
+- [x] Know when others join the room
+- [x] Have a name when chatting if not anonymous
+
+**Could haves**
+
+*Core functionality*
+- [x] Custom playbar 
+- [X] Video title as tab title
+- [ ] Creating playlists starting from current video
+
+**Won't have this time**
+- [ ] User roles for playback controls
+- [ ] Manually searching videos
+- [ ] Redirect to next video in related videos section
+
+## 📺 YouTube Player API
+
+**Source**: [link to iframe API](https://developers.google.com/youtube/iframe_api_reference)
+
+The YouTube player API provides an iFrame wherein the video player is found. The API supports two different approaches; automatically where the iFrame player embeds a video link, then renders it in the iFrame: 
+
+```html
+<iframe id="ytplayer" type="text/html" width="640" height="360"
+  src="YouTubeLinkGoesHere?autoplay=1&origin=http://example.com/"
+  frameborder="0"></iframe>
+```
+
+In this case, the player takes the given url source along with its parameters `?autoplay=1&origin=http://example.com/"` to generate a video player within the iframe. The parameters are optional and can be expended with additional parameters found in the documentation: [link to additional parameters](https://developers.google.com/youtube/player_parameters).
+
+The manual approach, however, is different. This approach needs an additional piece of javascript to render the iframe. The main advantages are: 
+* Programmatically change sources
+* Handle player events manually
+* Retrieve additional meta data 
+
+For this project, we're using the manual way to handle `data` events: 
+* state: `1` - video is playing
+* state: `2` - video is paused
+* state: `3` - video is seeking
+
+Knowing this, we can use javascript to interact with the `Player` object, which contains methods such as `pauseVideo()`, `playVideo()`, `seekTo()`, and other interactions normally found in the UI. [See complete list](https://developers.google.com/youtube/iframe_api_reference#Functions)
+
+## 📖 YouTube Data API
+**Source**: [link to YouTube Data API](https://developers.google.com/youtube/v3)
+
+This project uses the YouTube Data API to retrieve and render related videos to the video that is currently playing. To achieve that, the `Search` endpoint is used [link to the Search endpoint](https://developers.google.com/youtube/v3/docs/search). This endpoint takes a video id and returns videos related to it. The data returned contains the following from which only the snippets are used: 
+
+```JSON
+{
+    "kind": "youtube#searchResult",
+    "etag": etag,
+    "id": {
+        "kind": string,
+        "videoId": string,
+        "channelId": string,
+        "playlistId": string
+    },
+    "snippet": {
+        "publishedAt": datetime,
+        "channelId": string,
+        "title": string,
+        "description": string,
+        "thumbnails": {
+        (key): {
+            "url": string,
+            "width": unsigned integer,
+            "height": unsigned integer
+        }
+        },
+        "channelTitle": string,
+        "liveBroadcastContent": string
+    }
+}
+```
 
 ## 🔄Data lifecycle diagram
 
@@ -87,12 +193,12 @@ The `message` event handles the sent messages from clients. The client emits a `
 }
 ```
 
-### Noteworthy considerations
+### Caching data 
 
-This project has two data sources for caching the messages and related videos:
+This projects optimizes data storage and tries to serve them as efficiently as possible. The two features that handle data, the related videos and messages, are stored and managed differently.
 
 **Related cache**  
-The related cache contains cached API calls from the YouTube data API. It is created when the user opens a room that has not been cached previously. The cache has the following structure:
+It is created when the user opens a room that has not been cached previously. The cache has the following structure:
 
 ```JSON
 {
@@ -143,9 +249,21 @@ The messages are cached in a local JSON file called `messagesCache` with the fol
   ]
 }
 ```
-The chat functionality uses instant messaging therefore it is essential to fetch, save, and send data as fast as possible. That considered, it has been decided that storing messages in a local file is the preferred method.
+The chat functionality is instant messaging therefore it is essential to fetch, save, and send data as fast as possible. That considered, it has been decided that storing messages in a local file is the preferred method.
 
 ## 🤖 Installation
+
+**Dependencies**
+* Node
+* [Express](http://npmjs.com/package/express) `^4.17.1`
+* [EJS](https://www.npmjs.com/package/ejs) `^3.1.6`
+* [Dotenv](https://www.npmjs.com/package/dotenv) `^8.2.0`
+* [Body-parser](https://www.npmjs.com/package/body-parser) `^1.19.0`
+* [Socket.io](https://www.npmjs.com/package/socket.io) `^4.0.1`
+* [Axios](https://www.npmjs.com/package/axios) `^0.21.1`
+* [Async-redis](https://www.npmjs.com/package/async-redis) `^1.1.7`
+* [Lowdb](https://www.npmjs.com/package/lowdb) `^1.0.0`
+
 
 **Get a YouTube API key**  
 Requirements:
@@ -181,10 +299,13 @@ Set up Redis database:
 
 ## 🤝 Sources
 
+- [Youtube Iframe API](https://developers.google.com/youtube/iframe_api_reference)
 - [Youtube Data API v3](https://developers.google.com/youtube/v3)
 - [Youtube Data API v3 - Search](https://developers.google.com/youtube/v3/docs/search)
 - [Socket.io v4 - Documentation](https://socket.io/docs/v4)
 - [Async-Redis - Documentation](https://www.npmjs.com/package/async-redis)
+- [Shabier - lowdb functions](https://github.com/sjagoori/Read-it/blob/master/modules/cache.js)
+- [Shabier - async-redis functions](https://github.com/sjagoori/Read-it/blob/f78ea967bda688cfb08b0fd65dee2bfc8168fb89/modules/cache.js)
 
 ## 📝 License
 
