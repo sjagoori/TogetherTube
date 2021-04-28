@@ -89,7 +89,8 @@ TogetherTube is a YouTube client that brings YouTube and playback sync together 
 *Core functionality*
 - [x] Custom playbar 
 - [X] Video title as tab title
-- [ ] Display current active rooms
+- [x] Display current active rooms
+  - [ ] Technical restrictions; find a way to monitor room sizes without using window.onbeforeunload and applying changes
 - [ ] Creating playlists starting from current video
 
 **Won't have this time**
