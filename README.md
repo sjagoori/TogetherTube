@@ -125,7 +125,7 @@ Knowing this, we can use javascript to interact with the `Player` object, which 
 ## 📖 YouTube Data API
 **Source**: [link to YouTube Data API](https://developers.google.com/youtube/v3)
 
-This project uses the YouTube Data API to retrieve and render related videos to the video that is currently playing. To achieve that, the `Search` endpoint is used [link to the Search endpoint](https://developers.google.com/youtube/v3/docs/search). This endpoint takes a video id and returns videos related to it. The data returned contains the following from which only the snippets are used: 
+This project uses the YouTube Data API to retrieve and render related videos to the video that is currently playing. To achieve that, the `Search` endpoint is used: [link to the Search endpoint](https://developers.google.com/youtube/v3/docs/search). This endpoint takes a video id and returns videos related to it. The data returned contains the following from which only the snippets are used: 
 
 ```JSON
 {
